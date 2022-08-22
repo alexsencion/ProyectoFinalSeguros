@@ -1,0 +1,163 @@
+﻿<header ng-controller="menuController as self" style="margin-bottom:20px; margin-top:-50px; margin-right:-78px; margin-left:-77px;">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">Welcome {{self.user}}</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right nav">
+                <li>
+                    <button style="margin: 10px; background-color: gray;" type="button" ng-click="self.click()" class="btn btn-primary">Log Out</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<br />
+<md-content>
+    <uib-tabset active="activeJustified" justified="false" enable="true">
+        <uib-tab heading="Get Clients">
+            <div ng-controller="GetAllClientsController as cc" style="margin-top:20px">
+                <button ng-click="cc.click()" type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-danger" style="background-color: cadetblue; border: aliceblue;">Get Clients</button>
+                <br />
+                <table class="table table-striped table-hover" ng-show="cc.clients.length">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="client in cc.clients |orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+                            <td>{{client.Id}}</td>
+                            <td>{{client.Name}}</td>
+                            <td>{{client.Email}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"> </dir-pagination-controls>
+            </div>
+        </uib-tab>
+        <uib-tab heading="Get client by Id">
+            <div ng-controller="ClientByIdController as cc" style="margin-top:20px">
+                <div ng-show="error" class="alert alert-danger">{{cc.error}}</div>
+                <form name="form" ng-submit="cc.click()" role="form">
+                    <div class="form-group" style="display:inline-block">
+                        <span>Client ID:</span> <input type="text" name="clientId" class="form-control" ng-model="cc.clientId" required />
+                    </div>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger" style="background-color: cadetblue; border: aliceblue;">Find client</button>
+                    <span ng-show="form.client_id.$dirty && form.client_id.$error.required" class="help-block">ID is REQUIRED</span>
+                </form>
+                <br />
+                <table class="table table-striped table-hover" ng-hide="cc.client==null">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{cc.client.Id}}</td>
+                            <td>{{cc.client.Name}}</td>
+                            <td>{{cc.client.Email}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </uib-tab>
+        <uib-tab heading="Client by name">
+            <div ng-controller="ClientByNameController as cc" style="margin-top:20px">
+                <div ng-show="error" class="alert alert-danger">{{cc.error}}</div>
+                <form name="form" ng-submit="cc.click()" role="form">
+                    <div class="form-group" style="display:inline-block">
+                        <span>Client Name:</span> <input type="text" name="name" class="form-control" ng-model="cc.name" required />
+                    </div>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger" style="background-color: cadetblue; border: aliceblue;">Find client</button>
+                    <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Client name is required</span>
+                </form>
+                <br />
+                <table class="table table-striped table-hover" ng-show="cc.clients.length">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="client in cc.clients">
+                            <td>{{client.Id}}</td>
+                            <td>{{client.Name}}</td>
+                            <td>{{client.Email}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </uib-tab>
+        <uib-tab heading="Policy by Client Name">
+            <div ng-controller="PoliciesByNameController as cc" style="margin-top:20px">
+                <div ng-show="error" class="alert alert-danger">{{cc.error}}</div>
+                <form name="form" ng-submit="cc.click()" role="form">
+                    <div class="form-group" style="display:inline-block">
+                        <span> Client Name: </span> <input type="text" name="name" class="form-control" ng-model="cc.name" required />
+                    </div>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger" style="background-color: cadetblue; border: aliceblue;">Find Policy</button>
+                    <span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Client Name is required</span>
+                </form>
+                <br />
+                <table class="table table-striped table-hover" ng-show="cc.policies.length">
+                    <thead>
+                        <tr>
+                            <th>Policy Id</th>
+                            <th>Client Id</th>
+                            <th>Email</th>
+                            <th>Inception Date</th>
+                            <th>Installment Payment</th>
+                            <th>Amount Insured</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="policie in cc.policies">
+                            <td>{{policie.Id}}</td>
+                            <td>{{policie.ClientId}}</td>
+                            <td>{{policie.Email}}</td>
+                            <td>{{policie.InceptionDate}}</td>
+                            <td>{{policie.InstallmentPayment}}</td>
+                            <td>{{policie.AmountInsured}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </uib-tab>
+        <uib-tab heading="Client by Policy Id">
+            <div ng-controller="ClientByPolicyController as cc" style="margin-top:20px">
+                <div ng-show="error" class="alert alert-danger">{{cc.error}}</div>
+                <form name="form" ng-submit="cc.click()" role="form">
+                    <div class="form-group"  style="display:inline-block">
+                        <span>Policy ID:</span><input type="text" name="policy" class="form-control" ng-model="cc.policy" required />
+                    </div>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-danger" style="background-color: cadetblue; border: aliceblue;">Find Client</button>
+                    <span ng-show="form.policy.$dirty && form.policy.$error.required" class="help-block">Policy id is required</span>
+                </form>
+                <br />
+                <table class="table table-striped table-hover" ng-show="cc.client">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{cc.client.Name}}</td>
+                            <td>{{cc.client.Email}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</md-content>
+

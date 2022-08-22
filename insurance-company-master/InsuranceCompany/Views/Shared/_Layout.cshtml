@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html ng-app="CompanyApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+   
+</head>
+<body>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Insurance Company by Facundo Sa</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="~/scripts/angular.js"></script>
+    <script src="~/scripts/angular-route.js"></script>
+    <script src="~/scripts/angular-cookies.js"></script>
+    <script src="~/scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="~/scripts/dirPagination.js"></script>
+    <script src="~/scripts/modules/app.js"></script>
+    <script src="~/scripts/modules/authentication/AuthenticationService.js"></script>
+    <script src="~/scripts/modules/authentication/LoginController.js"></script>
+    <script src="~/scripts/modules/CompanyController.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+</html>
